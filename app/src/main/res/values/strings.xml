@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">SpokenEnglishApp</string>
+    <string name="test1">Hi my name is Dart</string>
+    <string name="test2">Hello</string>
+    <string name="test_p1_1">Hello, Biba</string>
+    <string name="test_p2_1">Hello, Boba</string>
+    <string name="test_p1_2">How are you</string>
+    <string name="test_p2_2">Fine</string>
+    <string-array name="dialog_travel">
+        <item>Ben</item>
+        <item>Bob</item>
+        <item>Hi! Have you ever been on a trip to a foreign country?</item>
+        <item>Yes, I have. I went to Japan last year for two weeks.</item>
+        <item>Wow, that sounds exciting! What did you do there?</item>
+        <item>I visited Tokyo, Kyoto, and Osaka. I saw a lot of temples, went to some museums, and ate a ton of amazing food.</item>
+        <item>That sounds like a great experience. I\'ve always wanted to visit Japan. How did you plan your trip?</item>
+        <item>I did a lot of research online and asked for recommendations from friends who had been there before. I also used a travel agency to book my flights and hotels.</item>
+        <item>That\'s a good idea. I usually just book everything myself, but it can be overwhelming with so many options.</item>
+        <item>Yeah, using a travel agency made things a lot easier for me. They also gave me some great suggestions for things to do and see.</item>
+        <item>Did you have any language barriers while you were there?</item>
+        <item>A little bit, but most people spoke some English, especially in the tourist areas. I also used a translation app on my phone to help with any communication issues.</item>
+        <item>That\'s good to know. I\'ve been hesitant to travel to a foreign country because of the language barrier.</item>
+        <item>Don\'t let that stop you! It\'s a great experience to immerse yourself in a different culture and learn some new words and phrases.</item>
+        <item>You\'re right. I think I\'ll start planning my next trip soon. Thanks for the inspiration!</item>
+        <item>No problem. Let me know if you need any recommendations or tips!</item>
+
+        <item>Привет! Ты когда-нибудь путешествовал за границу?</item>
+        <item>Да, путешествовал. Я был в Японии в прошлом году две недели.</item>
+        <item>Вау, звучит увлекательно! Что ты делал там?</item>
+        <item>Я посетил Токио, Киото и Осаку. Я увидел много храмов, посетил несколько музеев и съел множество потрясающей еды.</item>
+        <item>Звучит как отличный опыт. Я всегда хотел посетить Японию. Как ты планировал свою поездку?</item>
+        <item> Я провел много исследований в Интернете и спросил рекомендации у друзей, которые уже были там.
+            Я также использовал туристическое агентство, чтобы забронировать мои авиабилеты и отели.</item>
+        <item>Это хорошая идея. Я обычно бронирую все самостоятельно, но может быть слишком много вариантов.</item>
+        <item>Да, использование туристического агентства сделало все гораздо проще для меня.
+            Они также дали мне несколько отличных предложений для того, что можно посмотреть и сделать.</item>
+        <item>У тебя были языковые барьеры, когда ты был там?</item>
+        <item>Немного, но большинство людей говорили на английском языке, особенно в туристических районах.
+            Я также использовал приложение для перевода на моем телефоне, чтобы помочь с любыми проблемами в общении.</item>
+        <item>Хорошо знать. Я был нерешительным для путешествовия за границу из-за языкового барьера.</item>
+        <item>Не позволяй этому остановить тебя! Это отличный опыт погрузиться в другую культуру и изучить новые слова и фразы.</item>
+        <item>Ты прав. Я думаю, что скоро начну планировать свою следующую поездку. Спасибо за вдохновение!</item>
+        <item>Без проблем. Дайте мне знать, если тебе понадобятся какие-либо рекомендации или советы!</item>
+    </string-array>
+
+    <string-array name="dialog_2">
+        <item>Sofia</item>
+        <item>Mari</item>
+        <item>Hi</item>
+        <item>Hello</item>
+        <item>Nice to meet you</item>
+        <item>Nice to meet you too</item>
+    </string-array>
+</resources>
