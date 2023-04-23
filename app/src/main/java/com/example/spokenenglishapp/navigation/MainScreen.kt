@@ -11,7 +11,6 @@ fun MainScreen (){
 
     val navController = rememberNavController()
 
-
     val isSub = remember{
         mutableStateOf(false)
     }

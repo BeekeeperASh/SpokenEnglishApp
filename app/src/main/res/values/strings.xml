@@ -1,4 +1,9 @@
 <resources>
+
+
+    <string name="web_client_id">1035147341001-reiacd2sja6a0g67phekonq8fhcg926t.apps.googleusercontent.com</string>
+
+
     <string name="app_name">SpokenEnglishApp</string>
     <string name="test1">Hi my name is Dart</string>
     <string name="test2">Hello</string>

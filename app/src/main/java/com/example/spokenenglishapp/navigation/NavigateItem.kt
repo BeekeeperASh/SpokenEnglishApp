@@ -8,5 +8,5 @@ sealed class NavigateItem(val title: String, val iconId: Int, val route: String)
     object Screen3: NavigateItem("Screen 3", R.drawable.hearing, "screen_3")
     object Screen4: NavigateItem("Screen 4", R.drawable.mic, "screen_4")
     object Screen5: NavigateItem("Screen 5", R.drawable.mic, "screen_5")
-    object Screen6: NavigateItem("Screen 6", R.drawable.account_circle, "screen_6")
+    object Screen6: NavigateItem("Account", R.drawable.account_circle, "sign_in")
 }

@@ -1,6 +1,18 @@
 package com.example.spokenenglishapp.navigation
 
+import android.app.Activity.RESULT_OK
+import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.*
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,12 +23,25 @@ import com.example.spokenenglishapp.MainActivity.Companion.textLists
 import com.example.spokenenglishapp.app_screens.ChatLevels
 import com.example.spokenenglishapp.app_screens.dialogue
 import com.example.spokenenglishapp.app_tools.Level
+import com.example.spokenenglishapp.firebase.GoogleAuthUiClient
+import com.example.spokenenglishapp.firebase.SignInScreen
+import com.example.spokenenglishapp.firebase.SignInViewModel
+import com.example.spokenenglishapp.profile.ProfileScreen
+import com.google.android.gms.auth.api.identity.Identity
+import kotlinx.coroutines.launch
 
 @Composable
 fun NavGraph(
     navHostController: NavHostController,
     isSub: MutableState<Boolean>
 ) {
+    val context = LocalContext.current
+    val googleAuthUiClient by lazy {
+        GoogleAuthUiClient(
+            context = context,
+            oneTapClient = Identity.getSignInClient(context)
+        )
+    }
     val index = remember {
         mutableStateOf(0)
     }
@@ -56,11 +81,73 @@ fun NavGraph(
         composable("screen_5"){
             Screen5()
         }
-        composable("screen_6"){
-            Screen6()
-        }
+
         composable("screen_dialogue"){
             dialogue(navHostController, textLists[index.value], soundLists[index.value], imagesList[0])
+        }
+
+        composable("sign_in"){
+            val viewModel = viewModel<SignInViewModel>()
+            val state by viewModel.state.collectAsStateWithLifecycle()
+            LaunchedEffect(key1 = Unit){
+                if (googleAuthUiClient.getSignedInUser() != null){
+                    navHostController.navigate("profile")
+                }
+            }
+            val lifecycleOwner = LocalLifecycleOwner.current
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.StartIntentSenderForResult(),
+                onResult = {result ->
+                    if(result.resultCode == RESULT_OK){
+                        lifecycleOwner.lifecycleScope.launch {
+                            val signInResult = googleAuthUiClient.signInWithIntent(
+                                intent = result.data ?: return@launch
+                            )
+                            viewModel.onSignInResult(signInResult)
+                        }
+                    }
+                }
+            )
+
+            LaunchedEffect(key1 = state.isSignInSuccessful){
+                if(state.isSignInSuccessful){
+                    Toast.makeText(
+                        context,
+                        "Sign in successful",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    navHostController.navigate("profile")
+                    viewModel.resetState()
+                }
+            }
+
+            SignInScreen(
+                state = state,
+                onSignInClick = {
+                    lifecycleOwner.lifecycleScope.launch {
+                        val signInIntentSender = googleAuthUiClient.signIn()
+                        launcher.launch(
+                            IntentSenderRequest.Builder(
+                                signInIntentSender ?: return@launch
+                            ).build()
+                        )
+                    }
+                }
+            )
+        }
+
+        composable("profile"){
+            val lifecycleOwner = LocalLifecycleOwner.current
+            ProfileScreen(
+                userData = googleAuthUiClient.getSignedInUser(),
+                onSignOut = {
+                    lifecycleOwner.lifecycleScope.launch {
+                        googleAuthUiClient.signOut()
+                        Toast.makeText(context, "Signed out", Toast.LENGTH_LONG).show()
+                        navHostController.popBackStack()
+                    }
+                }
+            )
         }
     }
 }
