@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,7 +40,10 @@ fun SpeechRecognitionScreen(
 //    messageList: MutableList<MessageItem>,
     textString: String,
     len: MutableState<Int>,
-    maxLen: Int
+    maxLen: Int,
+    accuracy: MutableState<Int>,
+    isEnd: MutableState<Boolean>,
+    finalAccuracy: MutableState<Int>
     //messageList: List<MessageItem>,
 //    text: Array<String>,
 //    sound: List<Int>
@@ -92,7 +96,7 @@ fun SpeechRecognitionScreen(
         }
 
         override fun onError(error: Int) {
-            Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Please repeat", Toast.LENGTH_SHORT).show()
             flag.value = false
         }
 
@@ -104,7 +108,7 @@ fun SpeechRecognitionScreen(
             }
             flag.value = false
             val percent = levenshteinDistancePercentage(data?.get(0) ?: "", textString)
-            if (percent > 50 && len.value < maxLen) {
+            if (percent > 50 && len.value < maxLen) { //
 //                messageList.add(
 //                    MessageItem(
 //                        indexIterator.value%2==0,
@@ -114,11 +118,16 @@ fun SpeechRecognitionScreen(
 //                        sound[(indexIterator.value-2)]
 //                    )
 //                )
+                finalAccuracy.value += percent.toInt()
                 len.value += 1
+            } else if (percent > 50){
+                isEnd.value = true
+                finalAccuracy.value += percent.toInt()
             }
             //Toast.makeText(context, messageList.first().text, Toast.LENGTH_SHORT).show()
-            Toast.makeText(context, percent.toString(), Toast.LENGTH_SHORT).show()
-            Toast.makeText(context, textString, Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, percent.toString(), Toast.LENGTH_SHORT).show()
+            accuracy.value = percent.toInt()
+            //Toast.makeText(context, textString, Toast.LENGTH_SHORT).show()
         }
 
         override fun onPartialResults(partialResults: Bundle?) {}
@@ -153,7 +162,7 @@ fun SpeechRecognitionScreen(
                 contentDescription = "icon",
                 modifier = Modifier
                     .size(64.dp)
-                    .background(Color.White)
+                    .background(MaterialTheme.colors.background)
                     .border(4.dp, Purple500, CircleShape),
                 tint = Purple400,
             )
@@ -202,5 +211,6 @@ fun levenshteinDistancePercentage(s1: String, s2: String): Double {
     }
     val distance = dp[n][m]
     val maxLength = n.coerceAtLeast(m)
-    return (maxLength - distance).toDouble() / maxLength * 100
+    val accuracy = (maxLength - distance).toDouble() / maxLength * 100
+    return if(accuracy + 5.0 > 100) 100.0 else accuracy + 5.0
 }

@@ -3,17 +3,22 @@ package com.example.spokenenglishapp.navigation
 import android.annotation.SuppressLint
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.*
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
+import com.example.spokenenglishapp.firebase.login.LoginViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun MainScreen (){
+fun MainScreen (
+    loginViewModel: LoginViewModel
+){
 
     val navController = rememberNavController()
 
     val isSub = remember{
         mutableStateOf(false)
     }
+
 
     Scaffold(
         bottomBar = {
@@ -24,6 +29,6 @@ fun MainScreen (){
         }
 
     ) {
-        NavGraph(navHostController = navController, isSub)
+        NavGraph(navHostController = navController, isSub, loginViewModel)
     }
 }

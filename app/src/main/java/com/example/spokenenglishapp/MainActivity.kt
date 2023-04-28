@@ -25,6 +25,7 @@ import com.example.spokenenglishapp.app_tools.Level
 import com.example.spokenenglishapp.firebase.GoogleAuthUiClient
 import com.example.spokenenglishapp.firebase.SignInScreen
 import com.example.spokenenglishapp.firebase.SignInViewModel
+import com.example.spokenenglishapp.firebase.login.LoginViewModel
 import com.example.spokenenglishapp.navigation.*
 import com.example.spokenenglishapp.ui.theme.SpokenEnglishAppTheme
 import com.google.android.gms.auth.api.identity.Identity
@@ -32,19 +33,13 @@ import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
-    private val googleAuthUiClient by lazy {
-        GoogleAuthUiClient(
-            context = applicationContext,
-            oneTapClient = Identity.getSignInClient(applicationContext)
-        )
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            val loginViewModel = viewModel(modelClass = LoginViewModel::class.java)
             SpokenEnglishAppTheme {
                 //val stringArray = resources.getStringArray(R.array.dialog_test)
-                MainScreen()
+                MainScreen(loginViewModel)
             }
         }
     }

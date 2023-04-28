@@ -5,12 +5,7 @@
 
 
     <string name="app_name">SpokenEnglishApp</string>
-    <string name="test1">Hi my name is Dart</string>
-    <string name="test2">Hello</string>
-    <string name="test_p1_1">Hello, Biba</string>
-    <string name="test_p2_1">Hello, Boba</string>
-    <string name="test_p1_2">How are you</string>
-    <string name="test_p2_2">Fine</string>
+
     <string-array name="dialog_travel">
         <item>Ben</item>
         <item>Bob</item>
@@ -49,11 +44,15 @@
     </string-array>
 
     <string-array name="dialog_2">
-        <item>Sofia</item>
-        <item>Mari</item>
+        <item>Ben</item>
+        <item>Bob</item>
+        <item>Hello, Bob</item>
+        <item>Hello, Ben</item>
+        <item>How are you?</item>
+        <item>Fine</item>
         <item>Hi</item>
         <item>Hello</item>
-        <item>Nice to meet you</item>
-        <item>Nice to meet you too</item>
+        <item>How are you?</item>
+        <item>Fine</item>
     </string-array>
 </resources>

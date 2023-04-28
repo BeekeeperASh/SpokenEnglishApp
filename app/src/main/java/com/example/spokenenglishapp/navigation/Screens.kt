@@ -1,16 +1,24 @@
 package com.example.spokenenglishapp.navigation
 
+import android.content.Context
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
 fun Screen1() {
     Text(
-        modifier = Modifier.fillMaxSize().wrapContentHeight(),
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentHeight(),
         text = "Screen 1",
         textAlign = TextAlign.Center
     )
@@ -19,7 +27,9 @@ fun Screen1() {
 @Composable
 fun Screen2() {
     Text(
-        modifier = Modifier.fillMaxSize().wrapContentHeight(),
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentHeight(),
         text = "Screen 2",
         textAlign = TextAlign.Center
     )
@@ -28,7 +38,9 @@ fun Screen2() {
 @Composable
 fun Screen3() {
     Text(
-        modifier = Modifier.fillMaxSize().wrapContentHeight(),
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentHeight(),
         text = "Screen 3",
         textAlign = TextAlign.Center
     )
@@ -37,7 +49,9 @@ fun Screen3() {
 @Composable
 fun Screen4() {
     Text(
-        modifier = Modifier.fillMaxSize().wrapContentHeight(),
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentHeight(),
         text = "Screen 4",
         textAlign = TextAlign.Center
     )
@@ -46,16 +60,21 @@ fun Screen4() {
 @Composable
 fun Screen5() {
     Text(
-        modifier = Modifier.fillMaxSize().wrapContentHeight(),
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentHeight(),
         text = "Screen 5",
         textAlign = TextAlign.Center
     )
+
 }
 
 @Composable
 fun Screen6() {
     Text(
-        modifier = Modifier.fillMaxSize().wrapContentHeight(),
+        modifier = Modifier
+            .fillMaxSize()
+            .wrapContentHeight(),
         text = "Screen 6",
         textAlign = TextAlign.Center
     )

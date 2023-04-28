@@ -26,6 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -33,20 +35,22 @@ import coil.compose.AsyncImage
 import com.example.spokenenglishapp.R
 import com.example.spokenenglishapp.app_tools.MessageItem
 import com.example.spokenenglishapp.ui.theme.Purple300
+import com.example.spokenenglishapp.ui.theme.Shapes
 
 
-fun f(text: Array<String>, sound: List<Int>) : ArrayList<MessageItem>{
-    val listSub:ArrayList<MessageItem> = ArrayList()
+fun f(text: Array<String>, sound: List<Int>): ArrayList<MessageItem> {
+    val listSub: ArrayList<MessageItem> = ArrayList()
 
-    for (i in (2 until (text.size/2+1))){
+    for (i in (2 until (text.size / 2 + 1))) {
         listSub.add(
             MessageItem(
-                i%2==0,
+                i % 2 == 0,
                 text[i],
-                text[(text.size - 2)/2 + i],
-                text[i%2],
-                sound[(i-2)]
-            ))
+                text[(text.size - 2) / 2 + i],
+                text[i % 2],
+                sound[(i - 2)]
+            )
+        )
     }
     Log.d("MyLog", listSub.toString())
     return listSub
@@ -72,6 +76,15 @@ fun dialogue(
             addAll(f(textList, sound))
         }
     }
+    val accuracy = remember {
+        mutableStateOf(0)
+    }
+    val finalAccuracy = remember {
+        mutableStateOf(0)
+    }
+    val isEnd = remember {
+        mutableStateOf(false)
+    }
 //    val messageList = remember {
 //        mutableStateListOf<MessageItem>(
 //            MessageItem(
@@ -84,13 +97,21 @@ fun dialogue(
 //        )
 //    }
 
-
     Column(Modifier.fillMaxSize()) {
+        if (isEnd.value) {
+            OnComplete(
+                len.value,
+                {navController.navigate("chat_levels")},
+                finalAccuracy.value,
+                isEnd
+            )
+        }
         TopPanel(
             navController = navController,
             modifier = Modifier.weight(1.5f),
             links[0],
-            links[1]
+            links[1],
+            accuracy.value
         )
         MessageList(
             //messageItems = messageList,
@@ -101,10 +122,13 @@ fun dialogue(
         )
         SpeechRecognitionScreen(
             modifier = Modifier.weight(1f),
-            listX[len.value-1].textEn,
+            listX[len.value - 1].textEn,
             len = len,
-            maxLen = listX.size
-            //messageList,
+            maxLen = listX.size,
+            accuracy,
+            isEnd,
+            finalAccuracy
+        //messageList,
             //testList.value,
             //textList,
             //sound
@@ -118,7 +142,8 @@ fun TopPanel(
     navController: NavController,
     modifier: Modifier = Modifier,
     link1: String,
-    link2: String
+    link2: String,
+    accuracy: Int
 ) {
     Column(modifier = modifier) {
         IconButton(onClick = {
@@ -145,6 +170,19 @@ fun TopPanel(
                     .clip(CircleShape),
                 contentScale = ContentScale.Crop
             )
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "Accuracy",
+                    color = MaterialTheme.colors.onSurface,
+                    style = MaterialTheme.typography.h5
+                )
+                Text(
+                    text = "$accuracy %",
+                    color = if (accuracy < 50) MaterialTheme.colors.error else MaterialTheme.colors.primaryVariant,
+                    style = MaterialTheme.typography.h4,
+                    textAlign = TextAlign.Center
+                )
+            }
             AsyncImage(
                 model = link2,
                 contentDescription = "Translated description of what the image contains",
@@ -197,7 +235,7 @@ fun MessageCard(
         mutableStateOf(false)
     }
 
-    val isShow = remember {
+    val isShow = rememberSaveable {
         mutableStateOf(false)
     }
 
@@ -211,8 +249,8 @@ fun MessageCard(
             Log.d("MyLog", "answer is 3")
         }
     }
-    
-    LaunchedEffect(Unit){
+
+    LaunchedEffect(Unit) {
 
         Log.d("MyLog", "compose")
     }
@@ -231,7 +269,7 @@ fun MessageCard(
             shape = cardShapeFor(messageItem),
             backgroundColor = when {
                 messageItem.isSide -> MaterialTheme.colors.secondary
-                else -> MaterialTheme.colors.secondary
+                else -> MaterialTheme.colors.primary
             },
         ) {
 
@@ -274,7 +312,7 @@ fun MessageCard(
                         Icon(
                             painter = painterResource(id = if (isPlaying) R.drawable.pause_circle else R.drawable.play_circle),
                             contentDescription = "iconPlay",
-                            tint = Purple300
+                            tint = MaterialTheme.colors.secondary
                         )
                     }
                     if (isPlaying) {
@@ -286,7 +324,7 @@ fun MessageCard(
                             Icon(
                                 painter = painterResource(id = R.drawable.stop_circle),
                                 contentDescription = "iconStop",
-                                tint = Purple300
+                                tint = MaterialTheme.colors.secondary
                             )
                         }
                     }
@@ -352,7 +390,7 @@ fun MessageCard(
                     fontSize = 28.sp,
                     modifier = Modifier
                         .clip(CircleShape)
-                        .background(Color.Black)
+                        .background(MaterialTheme.colors.onBackground)
                         .padding(4.dp)
                         .alignByBaseline()
                         .clickable {
@@ -361,7 +399,7 @@ fun MessageCard(
                             //Log.d("MyLog", isShow.toString())
 
                         },
-                    color = Color.White,
+                    color = MaterialTheme.colors.background,
                 )
                 Spacer(modifier = Modifier.width(20.dp))
                 Text(
@@ -379,7 +417,7 @@ fun MessageCard(
                     fontSize = 28.sp,
                     modifier = Modifier
                         .clip(CircleShape)
-                        .background(Color.Black)
+                        .background(MaterialTheme.colors.onBackground)
                         .padding(4.dp)
                         .alignByBaseline()
                         .clickable {
@@ -387,7 +425,7 @@ fun MessageCard(
                             //isShow.value = true
                             //Log.d("MyLog", isShow.toString())
                         },
-                    color = Color.White
+                    color = MaterialTheme.colors.background
                 )
             }
         }
@@ -404,5 +442,54 @@ fun cardShapeFor(messageItem: MessageItem): Shape {
     }
 }
 
+@Composable
+fun OnComplete(
+    len: Int,
+    onSubmit: () -> Unit,
+    finalAccuracy: Int,
+    isEnd: MutableState<Boolean>
+) {
+    AlertDialog(onDismissRequest = {
+        isEnd.value = false
+        onSubmit()
+    },
+        confirmButton = {
+            TextButton(onClick = {
+                isEnd.value = false
+                onSubmit()
+            }) {
+                Text(text = "OK")
+            }
+        },
+//        dismissButton = {
+//            TextButton(onClick = { isEnd.value = false }) {
+//                Text(text = "Cancel")
+//            }
+//        },
+        title = {
+            Column(
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "Final accuracy ${finalAccuracy / len} %",
+                    style = MaterialTheme.typography.h5
+                )
+                Row() {
+                    repeat((finalAccuracy / len - 50) / 10){
+                        Icon(
+                            painter = painterResource(id = R.drawable.star),
+                            contentDescription = "",
+                            tint = Color.Yellow,
+                            modifier = Modifier.size(60.dp)
+                        )
+                    }
+                }
+            }
+        },
+        shape = MaterialTheme.shapes.medium
+    )
+}
 
 

@@ -18,7 +18,8 @@ fun TopNavigation(
 ) {
     val listItem = listOf(
         NavigateItem.Screen5,
-        NavigateItem.Screen6
+        NavigateItem.Auth
+        //NavigateItem.Account,
     )
     androidx.compose.material.TopAppBar(
         backgroundColor = Purple300
