@@ -4,7 +4,7 @@ import com.example.spokenenglishapp.R
 
 data class Level(
     val title: String = "Title",
-    val imageResource: String = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXJN7QdGkyBvLa7Z6urQ_E5TaNnh0adLjWnQ&usqp=CAU",
+    val imageResource: String = "https://static.lenovo.com/ww/campaigns/2021/services/smart-lock/ww-smart-lock-device-lock-icon.png",
     val description: String = "Description",
-    val route: String = "chat_levels",
+    val route: String = "sub_screen",
 )

@@ -26,8 +26,7 @@ fun BottomNavigation(
     val listItem = listOf(
         NavigateItem.Screen1,
         NavigateItem.Screen2,
-        NavigateItem.Screen3,
-        NavigateItem.Screen4
+        NavigateItem.Screen3
     )
     androidx.compose.material.BottomNavigation(
         backgroundColor = Color.White,

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1035147341001",
+    "project_id": "signin-358d5",
+    "storage_bucket": "signin-358d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1035147341001:android:b35a06986f46c550c17118",
+        "android_client_info": {
+          "package_name": "com.example.spokenenglishapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1035147341001-cri48pvsrashoj7etakbhigm4r39ob5q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHCyBiwlwytTr-AIgW6DQPFOuccY83Z4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1035147341001-cri48pvsrashoj7etakbhigm4r39ob5q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

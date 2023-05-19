@@ -4,12 +4,10 @@ import android.app.Activity.RESULT_OK
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
-import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,8 +18,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.spokenenglishapp.MainActivity.Companion.imagesList
 import com.example.spokenenglishapp.MainActivity.Companion.soundLists
 import com.example.spokenenglishapp.MainActivity.Companion.textLists
-import com.example.spokenenglishapp.app_screens.ChatLevels
-import com.example.spokenenglishapp.app_screens.dialogue
+import com.example.spokenenglishapp.app_screens.*
 import com.example.spokenenglishapp.app_tools.Level
 import com.example.spokenenglishapp.firebase.GoogleAuthUiClient
 import com.example.spokenenglishapp.firebase.SignInScreen
@@ -63,20 +60,22 @@ fun NavGraph(
                         "Travel and Tourism",
                         description = "Путешествия и туризм",
                         route = "screen_dialogue",
-                        imageResource = "https://www.globaltourismforum.org/wp-content/uploads/2020/02/travel-scaled.jpg"
+                        imageResource = "https://thumbnails.production.thenounproject.com/BZRlWdoa49K0kzNWKPek5j8gm2o=/fit-in/1000x1000/photos.production.thenounproject.com/photos/47D81F75-46AF-49CD-A372-E06F07FD8C8C.jpg"
                     ),
                     Level(
-                        "Dialog2",
-                        description = "Something",
+                        "Museum",
+                        description = "Музей",
                         route = "screen_dialogue",
-                        imageResource = "https://replicate.delivery/pbxt/0faix0jVnsWfHEXk4hB00UPqqogMCI3kBcgUie4tJWtOUM5fA/out-0.png"
+                        imageResource = "https://images.unsplash.com/photo-1564399579883-451a5d44ec08?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fG11c2V1bXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60"
                     ),
-                    Level("", description = "Anything"),
                     Level(
-                        route = "screen_3",
-                        imageResource = "https://cdn.discordapp.com/attachments/995431274267279440/1039324448790151228/Artlandis_a_majestic_colossal_ancient_tree_made_with_intricate__6ec2679d-18d4-42a0-bd23-78e3de632248.png"
+                        "Example",
+                        description = "Пример",
+                        route = "screen_dialogue",
+                        imageResource = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuT2E_Y0aivI43xfQ66jPt9yc4j5T11d0DlQ&usqp=CAU"
                     ),
-                    Level(route = "screen_4"),
+                    Level(),
+                    Level(),
                     Level(),
                     Level(),
                     Level(),
@@ -90,13 +89,10 @@ fun NavGraph(
             )
         }
         composable("screen_2") {
-            Screen2()
+            CustomExercise()
         }
         composable("screen_3") {
-            Screen3()
-        }
-        composable("screen_4") {
-            Screen4()
+            TextInput()
         }
         composable("screen_5") {
             Screen5()
@@ -107,7 +103,7 @@ fun NavGraph(
                 navHostController,
                 textLists[index.value],
                 soundLists[index.value],
-                imagesList[0]
+                imagesList[index.value]
             )
         }
 
@@ -213,6 +209,10 @@ fun NavGraph(
 
         composable("profile_default"){
             ProfileScreenDefault()
+        }
+
+        composable("sub_screen"){
+            SubScreen()
         }
     }
 }

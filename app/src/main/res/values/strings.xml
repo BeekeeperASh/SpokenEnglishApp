@@ -4,7 +4,7 @@
     <string name="web_client_id">1035147341001-reiacd2sja6a0g67phekonq8fhcg926t.apps.googleusercontent.com</string>
 
 
-    <string name="app_name">SpokenEnglishApp</string>
+    <string name="app_name">PhonoFit</string>
 
     <string-array name="dialog_travel">
         <item>Ben</item>
@@ -43,6 +43,42 @@
         <item>Без проблем. Дайте мне знать, если тебе понадобятся какие-либо рекомендации или советы!</item>
     </string-array>
 
+    <string-array name="dialog_museum">
+        <item>Antonio</item>
+        <item>Brooke</item>
+        <item>Have you been to a museum?</item>
+        <item>No, not yet. What is it like?</item>
+        <item>Museums are places with art, history, and culture. You can see cool stuff there.</item>
+        <item>Sounds interesting. Any recommendations?</item>
+        <item>Depends on what you like. Contemporary Art Museum for modern art or National History Museum for history.</item>
+        <item>I\'m into history. What\'s there to see?</item>
+        <item>They have exhibits on different time periods, artifacts, and even dinosaur skeletons.</item>
+        <item>Cool! Is there an entrance fee?</item>
+        <item>Yeah, most museums have a fee, but some offer discounts or free days.</item>
+        <item>Got it. How long does it take to go through?</item>
+        <item>Depends on the size, could be a few hours or a whole day.</item>
+        <item>Alright. Anything else I should know?</item>
+        <item>Check their website for special exhibitions and wear comfy shoes.</item>
+        <item>Thanks! Looking forward to it.</item>
+        <item>Enjoy your visit and have fun exploring!</item>
+
+        <item>Ты бывал в музее?</item>
+        <item>Нет, ещё не был. Как там?</item>
+        <item>Музеи — это места с искусством, историей и культурой. Там можно увидеть интересные вещи.</item>
+        <item>Звучит интересно. Есть какие-то рекомендации?</item>
+        <item>Всё зависит от твоих предпочтений. Для современного искусства можно посетить Музей современного искусства, а для истории — Национальный исторический музей.</item>
+        <item>Меня интересует история. Что там можно увидеть?</item>
+        <item>В Национальном историческом музее есть выставки, посвященные разным историческим периодам, артефакты и даже скелеты динозавров.</item>
+        <item>Звучит здорово! Нужно ли платить за вход?</item>
+        <item>Да, в большинстве музеев есть плата за вход, но некоторые предлагают скидки или бесплатные дни.</item>
+        <item>Понятно. Сколько времени занимает посещение?</item>
+        <item>Зависит от размера музея и того, сколько времени ты хочешь провести у каждой экспозиции. Может занять от нескольких часов до целого дня.</item>
+        <item>Хорошо. Есть ли что-то ещё, о чём стоит знать?</item>
+        <item>Проверь их веб-сайт на наличие специальных выставок и событий, и не забудь надеть удобную обувь.</item>
+        <item>Спасибо! Жду с нетерпением.</item>
+        <item>Наслаждайся посещением и хорошо проведи время, исследуя все увлекательные экспозиции!</item>
+    </string-array>
+
     <string-array name="dialog_2">
         <item>Ben</item>
         <item>Bob</item>
@@ -53,6 +89,6 @@
         <item>Hi</item>
         <item>Hello</item>
         <item>How are you?</item>
-        <item>Fine</item>
+        <item>I am fine</item>
     </string-array>
 </resources>

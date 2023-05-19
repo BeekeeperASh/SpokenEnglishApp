@@ -385,22 +385,13 @@ fun MessageCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             if (messageItem.isSide) {
-                Text(
-                    text = "RU",
-                    fontSize = 28.sp,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colors.onBackground)
-                        .padding(4.dp)
-                        .alignByBaseline()
-                        .clickable {
-                            isShow.value = !isShow.value //isShow.value
-                            //isShow.value = true
-                            //Log.d("MyLog", isShow.toString())
-
-                        },
-                    color = MaterialTheme.colors.background,
-                )
+                IconButton(
+                    onClick = {
+                        isShow.value = !isShow.value
+                    }
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.googletranslate), contentDescription = "")
+                }
                 Spacer(modifier = Modifier.width(20.dp))
                 Text(
                     text = messageItem.name,
@@ -412,21 +403,28 @@ fun MessageCard(
                     fontSize = 12.sp
                 )
                 Spacer(modifier = Modifier.width(20.dp))
-                Text(
-                    text = "RU",
-                    fontSize = 28.sp,
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colors.onBackground)
-                        .padding(4.dp)
-                        .alignByBaseline()
-                        .clickable {
-                            isShow.value = !isShow.value
-                            //isShow.value = true
-                            //Log.d("MyLog", isShow.toString())
-                        },
-                    color = MaterialTheme.colors.background
-                )
+                IconButton(
+                    onClick = {
+                        isShow.value = !isShow.value
+                    }
+                ) {
+                    Icon(painter = painterResource(id = R.drawable.googletranslate), contentDescription = "")
+                }
+//                Text(
+//                    text = "RU",
+//                    fontSize = 28.sp,
+//                    modifier = Modifier
+//                        .clip(CircleShape)
+//                        .background(MaterialTheme.colors.onBackground)
+//                        .padding(4.dp)
+//                        .alignByBaseline()
+//                        .clickable {
+//                            isShow.value = !isShow.value
+//                            //isShow.value = true
+//                            //Log.d("MyLog", isShow.toString())
+//                        },
+//                    color = MaterialTheme.colors.background
+//                )
             }
         }
 
