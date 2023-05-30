@@ -86,9 +86,22 @@
         <item>Hello, Ben</item>
         <item>How are you?</item>
         <item>Fine</item>
-        <item>Hi</item>
-        <item>Hello</item>
+        <item>Привет</item>
+        <item>Здравствуй</item>
+        <item>Как дела?</item>
+        <item>У меня всё хорошо</item>
+    </string-array>
+
+    <string-array name="dialog_test">
+        <item>Ben</item>
+        <item>Bob</item>
+        <item>Hello, hi, good, bad</item>
+        <item>Hello, good, yes, no</item>
         <item>How are you?</item>
-        <item>I am fine</item>
+        <item>I am student</item>
+        <item>Привет</item>
+        <item>Здравствуй</item>
+        <item>Как дела?</item>
+        <item>У меня всё хорошо</item>
     </string-array>
 </resources>

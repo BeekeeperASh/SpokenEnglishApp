@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -40,7 +41,7 @@ fun SignInScreen(
 //            Text(text = "Sign In")
 //        }
         IconButton(onClick = onSignInClick) {
-            Icon(painter = painterResource(id = R.drawable.icon_google), contentDescription = null)
+            Icon(painter = painterResource(id = R.drawable.icon_google), contentDescription = null, tint = MaterialTheme.colorScheme.onBackground)
         }
     }
 }

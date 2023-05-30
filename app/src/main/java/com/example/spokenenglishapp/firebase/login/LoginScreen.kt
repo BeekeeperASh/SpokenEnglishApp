@@ -5,8 +5,9 @@ import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
@@ -29,7 +30,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.spokenenglishapp.firebase.GoogleAuthUiClient
 import com.example.spokenenglishapp.firebase.SignInScreen
 import com.example.spokenenglishapp.firebase.SignInViewModel
-import com.example.spokenenglishapp.ui.theme.SpokenEnglishAppTheme
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 
@@ -51,14 +51,14 @@ fun LoginScreen(
     }
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Login",
-            style = MaterialTheme.typography.h3,
+            style = MaterialTheme.typography.displayMedium,
             fontWeight = FontWeight.Black,
-            color = MaterialTheme.colors.primary
+            color = MaterialTheme.colorScheme.primary
         )
 
         if (isError){
@@ -104,7 +104,7 @@ fun LoginScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "Don't have an Account?", textAlign = TextAlign.Center)
+            Text(text = "Don't have an Account?", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onBackground)
             Spacer(modifier = Modifier.size(8.dp))
             TextButton(onClick = { onNavToSignUp.invoke() }) {
                 Text(text = "SignUp")
@@ -188,14 +188,14 @@ fun SignUpScreen(
     val context = LocalContext.current
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = "Sign Up",
-            style = MaterialTheme.typography.h3,
+            style = MaterialTheme.typography.displayMedium,
             fontWeight = FontWeight.Black,
-            color = MaterialTheme.colors.primary
+            color = MaterialTheme.colorScheme.primary
         )
 
         if (isError){
@@ -256,7 +256,7 @@ fun SignUpScreen(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center
         ) {
-            Text(text = "Already have an Account?", textAlign = TextAlign.Center)
+            Text(text = "Already have an Account?", textAlign = TextAlign.Center, color = MaterialTheme.colorScheme.onBackground)
             Spacer(modifier = Modifier.size(8.dp))
             TextButton(onClick = { onNavToLogin.invoke() }) {
                 Text(text = "SignIn")

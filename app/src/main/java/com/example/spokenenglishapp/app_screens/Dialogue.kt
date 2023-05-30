@@ -1,19 +1,16 @@
 package com.example.spokenenglishapp.app_screens
 
 import android.content.Context
-import android.graphics.Paint.Style
 import android.media.MediaPlayer
-import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -23,19 +20,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.spokenenglishapp.R
 import com.example.spokenenglishapp.app_tools.MessageItem
-import com.example.spokenenglishapp.ui.theme.Purple300
-import com.example.spokenenglishapp.ui.theme.Shapes
+import com.example.spokenenglishapp.firebase.Resources
+import com.example.spokenenglishapp.firebase.StorageRepository
+import com.example.spokenenglishapp.firebase.UserData
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 fun f(text: Array<String>, sound: List<Int>): ArrayList<MessageItem> {
@@ -52,7 +52,7 @@ fun f(text: Array<String>, sound: List<Int>): ArrayList<MessageItem> {
             )
         )
     }
-    Log.d("MyLog", listSub.toString())
+    //Log.d("MyLog", listSub.toString())
     return listSub
 }
 
@@ -97,11 +97,18 @@ fun dialogue(
 //        )
 //    }
 
-    Column(Modifier.fillMaxSize()) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+    ) {
         if (isEnd.value) {
             OnComplete(
                 len.value,
-                {navController.navigate("chat_levels")},
+                {
+
+                    navController.navigate("chat_levels")
+                },
                 finalAccuracy.value,
                 isEnd
             )
@@ -128,7 +135,7 @@ fun dialogue(
             accuracy,
             isEnd,
             finalAccuracy
-        //messageList,
+            //messageList,
             //testList.value,
             //textList,
             //sound
@@ -153,7 +160,8 @@ fun TopPanel(
 
             Icon(
                 painter = painterResource(id = R.drawable.arrow_back),
-                contentDescription = "buttonBack"
+                contentDescription = "buttonBack",
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
         Row(
@@ -173,13 +181,13 @@ fun TopPanel(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 Text(
                     text = "Accuracy",
-                    color = MaterialTheme.colors.onSurface,
-                    style = MaterialTheme.typography.h5
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = MaterialTheme.typography.headlineLarge
                 )
                 Text(
                     text = "$accuracy %",
-                    color = if (accuracy < 50) MaterialTheme.colors.error else MaterialTheme.colors.primaryVariant,
-                    style = MaterialTheme.typography.h4,
+                    color = if (accuracy < 50) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.displaySmall,
                     textAlign = TextAlign.Center
                 )
             }
@@ -246,13 +254,13 @@ fun MessageCard(
     DisposableEffect(Unit) {
         onDispose {
             mp.release()
-            Log.d("MyLog", "answer is 3")
+            //Log.d("MyLog", "answer is 3")
         }
     }
 
     LaunchedEffect(Unit) {
 
-        Log.d("MyLog", "compose")
+        //Log.d("MyLog", "compose")
     }
 
     Column(
@@ -267,10 +275,16 @@ fun MessageCard(
         Card(
             modifier = Modifier.widthIn(max = 400.dp),
             shape = cardShapeFor(messageItem),
-            backgroundColor = when {
-                messageItem.isSide -> MaterialTheme.colors.secondary
-                else -> MaterialTheme.colors.primary
-            },
+            colors = CardDefaults.cardColors(
+                when {
+                    messageItem.isSide -> MaterialTheme.colorScheme.secondaryContainer
+                    else -> MaterialTheme.colorScheme.tertiaryContainer
+                }
+            ),
+//            backgroundColor = when {
+//                messageItem.isSide -> MaterialTheme.colors.secondary
+//                else -> MaterialTheme.colors.primary
+//            },
         ) {
 
             Row(
@@ -287,15 +301,15 @@ fun MessageCard(
                                 .padding(8.dp)
                                 .widthIn(max = 280.dp),
                             text = messageItem.textEn,
-                            color = MaterialTheme.colors.onPrimary
+                            color = MaterialTheme.colorScheme.onTertiaryContainer
                         )
-                        if (isShow.value) {
+                        AnimatedVisibility(isShow.value) {
                             Text(
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .widthIn(max = 280.dp),
                                 text = messageItem.textRu,
-                                color = MaterialTheme.colors.onPrimary
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -312,7 +326,7 @@ fun MessageCard(
                         Icon(
                             painter = painterResource(id = if (isPlaying) R.drawable.pause_circle else R.drawable.play_circle),
                             contentDescription = "iconPlay",
-                            tint = MaterialTheme.colors.secondary
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                     if (isPlaying) {
@@ -324,7 +338,7 @@ fun MessageCard(
                             Icon(
                                 painter = painterResource(id = R.drawable.stop_circle),
                                 contentDescription = "iconStop",
-                                tint = MaterialTheme.colors.secondary
+                                tint = MaterialTheme.colorScheme.error
                             )
                         }
                     }
@@ -342,7 +356,7 @@ fun MessageCard(
                         Icon(
                             painter = painterResource(id = if (isPlaying) R.drawable.pause_circle else R.drawable.play_circle),
                             contentDescription = "iconPlay",
-                            tint = Purple300
+                            tint = MaterialTheme.colorScheme.primary
                         )
                     }
                     if (isPlaying) {
@@ -354,7 +368,7 @@ fun MessageCard(
                             Icon(
                                 painter = painterResource(id = R.drawable.stop_circle),
                                 contentDescription = "iconStop",
-                                tint = Purple300
+                                tint = MaterialTheme.colorScheme.error
                             )
                         }
                     }
@@ -365,15 +379,15 @@ fun MessageCard(
                                 .padding(8.dp)
                                 .widthIn(max = 280.dp),
                             text = messageItem.textEn,
-                            color = MaterialTheme.colors.onSecondary
+                            color = MaterialTheme.colorScheme.onSecondaryContainer
                         )
-                        if (isShow.value) {
+                        AnimatedVisibility(isShow.value) {
                             Text(
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .widthIn(max = 280.dp),
                                 text = messageItem.textRu,
-                                color = MaterialTheme.colors.onSecondary
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -381,7 +395,6 @@ fun MessageCard(
             }
         }
         Row(
-            //modifier = Modifier.width(IntrinsicSize.Max),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             if (messageItem.isSide) {
@@ -390,17 +403,23 @@ fun MessageCard(
                         isShow.value = !isShow.value
                     }
                 ) {
-                    Icon(painter = painterResource(id = R.drawable.googletranslate), contentDescription = "")
+                    Icon(
+                        painter = painterResource(id = R.drawable.googletranslate),
+                        contentDescription = "",
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
                 }
                 Spacer(modifier = Modifier.width(20.dp))
                 Text(
                     text = messageItem.name,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             } else {
                 Text(
                     text = messageItem.name,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(modifier = Modifier.width(20.dp))
                 IconButton(
@@ -408,23 +427,12 @@ fun MessageCard(
                         isShow.value = !isShow.value
                     }
                 ) {
-                    Icon(painter = painterResource(id = R.drawable.googletranslate), contentDescription = "")
+                    Icon(
+                        painter = painterResource(id = R.drawable.googletranslate),
+                        contentDescription = "",
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
                 }
-//                Text(
-//                    text = "RU",
-//                    fontSize = 28.sp,
-//                    modifier = Modifier
-//                        .clip(CircleShape)
-//                        .background(MaterialTheme.colors.onBackground)
-//                        .padding(4.dp)
-//                        .alignByBaseline()
-//                        .clickable {
-//                            isShow.value = !isShow.value
-//                            //isShow.value = true
-//                            //Log.d("MyLog", isShow.toString())
-//                        },
-//                    color = MaterialTheme.colors.background
-//                )
             }
         }
 
@@ -445,16 +453,59 @@ fun OnComplete(
     len: Int,
     onSubmit: () -> Unit,
     finalAccuracy: Int,
-    isEnd: MutableState<Boolean>
+    isEnd: MutableState<Boolean>,
+    repository: StorageRepository = StorageRepository()
 ) {
-    AlertDialog(onDismissRequest = {
-        isEnd.value = false
-        onSubmit()
-    },
+    val lifecycleOwner = LocalLifecycleOwner.current
+    var userInf: List<UserData>? = emptyList()
+    fun userInfo() {
+        lifecycleOwner.lifecycleScope.launch {
+            repository.getUserData(repository.getUserId()).collect { resources ->
+                when (resources) {
+                    is Resources.Loading -> {
+                        // Обработка загрузки данных
+                    }
+                    is Resources.Success -> {
+                        userInf = resources.data // Данные пользователя
+                        // Обработка успешного получения данных
+                        //Log.d("MyLog", "userInfo")
+                        delay(1000)
+                    }
+                    is Resources.Error -> {
+                        val throwable = resources.throwable // Ошибка получения данных
+                        // Обработка ошибки при получении данных
+                    }
+                }
+            }
+            //delay(1000)
+        }
+    }
+    if (repository.hasUser()) {
+        userInfo()
+    }
+    AlertDialog(
+        onDismissRequest = {
+            if (repository.hasUser()) {
+                //userInfo()
+                repository.addElementToMap(userInf!![0].documentId, finalAccuracy / len) {
+                    //Log.d("MyLog", "update")
+                }
+            }
+            isEnd.value = false
+            onSubmit()
+
+        },
         confirmButton = {
             TextButton(onClick = {
+                if (repository.hasUser()) {
+                    //userInfo()
+                    repository.addElementToMap(userInf!![0].documentId, finalAccuracy / len) {
+                        //Log.d("MyLog", "update")
+                    }
+                }
                 isEnd.value = false
                 onSubmit()
+
             }) {
                 Text(text = "OK")
             }
@@ -472,10 +523,11 @@ fun OnComplete(
             ) {
                 Text(
                     text = "Final accuracy ${finalAccuracy / len} %",
-                    style = MaterialTheme.typography.h5
+                    style = MaterialTheme.typography.displaySmall,
+                    textAlign = TextAlign.Center
                 )
                 Row() {
-                    repeat((finalAccuracy / len - 50) / 10){
+                    repeat((finalAccuracy / len - 40) / 10) {
                         Icon(
                             painter = painterResource(id = R.drawable.star),
                             contentDescription = "",
@@ -488,6 +540,14 @@ fun OnComplete(
         },
         shape = MaterialTheme.shapes.medium
     )
+
+//    DisposableEffect(Unit) {
+//        onDispose {
+//            if (repository.hasUser()) userInfo()
+//        }
+//    }
+
 }
+
 
 

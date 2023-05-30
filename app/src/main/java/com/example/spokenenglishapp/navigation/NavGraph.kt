@@ -27,7 +27,6 @@ import com.example.spokenenglishapp.firebase.login.LoginScreen
 import com.example.spokenenglishapp.firebase.login.LoginViewModel
 import com.example.spokenenglishapp.firebase.login.SignUpScreen
 import com.example.spokenenglishapp.profile.ProfileScreen
-import com.example.spokenenglishapp.profile.ProfileScreenDefault
 import com.google.android.gms.auth.api.identity.Identity
 import kotlinx.coroutines.launch
 
@@ -74,7 +73,10 @@ fun NavGraph(
                         route = "screen_dialogue",
                         imageResource = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuT2E_Y0aivI43xfQ66jPt9yc4j5T11d0DlQ&usqp=CAU"
                     ),
-                    Level(),
+                    Level("Test",
+                        description = "Тест",
+                        route = "screen_dialogue",
+                        imageResource = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSuT2E_Y0aivI43xfQ66jPt9yc4j5T11d0DlQ&usqp=CAU"),
                     Level(),
                     Level(),
                     Level(),
@@ -88,10 +90,7 @@ fun NavGraph(
                 ), navHostController, index
             )
         }
-        composable("screen_2") {
-            CustomExercise()
-        }
-        composable("screen_3") {
+        composable("custom_exercise") {
             TextInput()
         }
         composable("screen_5") {
@@ -207,12 +206,9 @@ fun NavGraph(
             }
         }
 
-        composable("profile_default"){
-            ProfileScreenDefault()
-        }
-
-        composable("sub_screen"){
+        composable("sub_screen") {
             SubScreen()
+
         }
     }
 }

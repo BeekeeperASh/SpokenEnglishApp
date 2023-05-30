@@ -9,7 +9,6 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.*
@@ -18,7 +17,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.text.selection.SelectionContainer
-import androidx.compose.material.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.*
+import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
@@ -35,11 +36,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.datastore.dataStore
 import com.example.spokenenglishapp.R
 import com.example.spokenenglishapp.datastore.StoreUserInfo
-import com.example.spokenenglishapp.ui.theme.Purple400
-import com.example.spokenenglishapp.ui.theme.Purple500
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.launch
@@ -135,7 +133,7 @@ fun CustomExercise() {
                 Row() {
                     Button(
                         onClick = { selectedVoice = true },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = if (selectedVoice) Color.Green else Color.Gray)
+                        colors = ButtonDefaults.buttonColors(if (selectedVoice) Color.Green else Color.Gray)
                     ) {
                         Text(
                             modifier = Modifier.background(if (selectedVoice) Color.Green else Color.Gray),
@@ -144,7 +142,7 @@ fun CustomExercise() {
                     }
                     Button(
                         onClick = { selectedVoice = false },
-                        colors = ButtonDefaults.buttonColors(backgroundColor = if (selectedVoice) Color.Gray else Color.Green)
+                        colors = ButtonDefaults.buttonColors(if (selectedVoice) Color.Gray else Color.Green)
                     ) {
                         Text(
                             modifier = Modifier.background(if (selectedVoice) Color.Gray else Color.Green),
@@ -204,7 +202,6 @@ fun TextInput() {
     val savedText = dataStore.getText.collectAsState(initial = "")
     val arrayTutorialType = object : TypeToken<ArrayList<String>>() {}.type
     val savedArrayOfTexts: ArrayList<String> = gson.fromJson(savedText.value?:"", arrayTutorialType)?: ArrayList()
-    //savedArrayOfTexts.forEachIndexed{ _, text -> Log.d("MyLog", text)}
 
     var textValue by remember { mutableStateOf(TextFieldValue()) }
 
@@ -217,9 +214,9 @@ fun TextInput() {
     if (flag.value) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.background)
         ) {
-            Text(text = "Текст для практики", color = MaterialTheme.colors.primary, style = MaterialTheme.typography.h3, textAlign = TextAlign.Center)
+            Text(text = "Текст для практики", color = MaterialTheme.colorScheme.secondary, style = MaterialTheme.typography.displayMedium, textAlign = TextAlign.Center)
             SelectionContainer {
                 OutlinedTextField(
                     value = textValue,
@@ -245,7 +242,7 @@ fun TextInput() {
                 },
                 modifier = Modifier.padding(16.dp)
             ) {
-                Text("Вставить код из буфера обмена")
+                Text("Вставить текст из буфера обмена")
             }
             Button(
                 onClick = {
@@ -372,12 +369,12 @@ fun speechRecognition(
                 painter = painterResource(id = if (flag.value) R.drawable.mic else R.drawable.mic_off),
                 contentDescription = "icon",
                 modifier = Modifier
-                    .size(if (flag.value) pulsate.dp else 60.dp)
-                    .background(MaterialTheme.colors.surface)
-                    .border(4.dp, Purple500, CircleShape)
+                    .size(60.dp) //(if (flag.value) pulsate.dp else 60.dp)
+                    .background(MaterialTheme.colorScheme.secondaryContainer)
+                    .border(4.dp, MaterialTheme.colorScheme.secondary, CircleShape)
                     //.offset(x = 10.dp, y = 10.dp)
                 ,
-                tint = Purple400,
+                tint = MaterialTheme.colorScheme.secondary,
             )
         }
     }
@@ -430,7 +427,7 @@ fun TextRepetition(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val dataStore = StoreUserInfo(context)
-    Column() {
+    Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
         IconButton(
             onClick = {
                 flag.value = true
@@ -439,7 +436,7 @@ fun TextRepetition(
                 }
             }
         ) {
-            Icon(Icons.Default.ArrowBack, contentDescription = null)
+            Icon(Icons.Default.ArrowBack, contentDescription = null, tint = MaterialTheme.colorScheme.onBackground)
         }
         Spacer(
             modifier = Modifier
@@ -494,13 +491,13 @@ fun TextItem(text: String) {
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(
-            shape = CircleShape,
-            border = BorderStroke(4.dp, MaterialTheme.colors.primary)
+            border = BorderStroke(4.dp, MaterialTheme.colorScheme.primary)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(4.dp),
+                    .padding(4.dp)
+                    .background(MaterialTheme.colorScheme.secondaryContainer),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -509,7 +506,8 @@ fun TextItem(text: String) {
                     modifier = Modifier
                         .weight(3f)
                         .padding(4.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    color = MaterialTheme.colorScheme.secondary
                 )
                 Column(
                     modifier = Modifier.weight(1f),
@@ -524,7 +522,7 @@ fun TextItem(text: String) {
                     Text(
                         text = "${accuracy.value} %",
                         modifier = Modifier.padding(bottom = 12.dp),
-                        style = MaterialTheme.typography.h6
+                        style = MaterialTheme.typography.titleLarge
                     )
                 }
 
@@ -533,19 +531,19 @@ fun TextItem(text: String) {
         Row() {
             Button(
                 onClick = { selectedVoice = true },
-                colors = ButtonDefaults.buttonColors(backgroundColor = if (selectedVoice) Color.Green else Color.Gray)
+                colors = ButtonDefaults.buttonColors(if (selectedVoice) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline)
             ) {
                 Text(
-                    modifier = Modifier.background(if (selectedVoice) Color.Green else Color.Gray),
+                    modifier = Modifier.background(if (selectedVoice) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outline),
                     text = "en-GB",
                 )
             }
             Button(
                 onClick = { selectedVoice = false },
-                colors = ButtonDefaults.buttonColors(backgroundColor = if (selectedVoice) Color.Gray else Color.Green)
+                colors = ButtonDefaults.buttonColors(if (selectedVoice) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.primary)
             ) {
                 Text(
-                    modifier = Modifier.background(if (selectedVoice) Color.Gray else Color.Green),
+                    modifier = Modifier.background(if (selectedVoice) MaterialTheme.colorScheme.outline else MaterialTheme.colorScheme.primary),
                     text = "en-US",
                 )
             }
@@ -553,7 +551,7 @@ fun TextItem(text: String) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text("Скорость речи: ${String.format("%.1f", speed)}x", fontSize = 16.sp)
+        Text("Скорость речи: ${String.format("%.1f", speed)}x", fontSize = 16.sp, color = MaterialTheme.colorScheme.onBackground)
 
         Spacer(modifier = Modifier.height(8.dp))
 
@@ -578,7 +576,7 @@ fun TextItem(text: String) {
             IconButton(onClick = {
                 tts.stop()
             }) {
-                Icon(painter = painterResource(id = R.drawable.replay), contentDescription = "")
+                Icon(painter = painterResource(id = R.drawable.replay), contentDescription = "", tint = MaterialTheme.colorScheme.onBackground)
             }
         }
     }

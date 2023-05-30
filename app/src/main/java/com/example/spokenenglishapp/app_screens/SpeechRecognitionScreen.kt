@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -17,11 +16,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -29,31 +27,18 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.spokenenglishapp.MainActivity
 import com.example.spokenenglishapp.R
-import com.example.spokenenglishapp.app_tools.MessageItem
-import com.example.spokenenglishapp.ui.theme.Purple400
-import com.example.spokenenglishapp.ui.theme.Purple500
 
 
 @Composable
 fun SpeechRecognitionScreen(
     modifier: Modifier = Modifier,
-//    messageList: MutableList<MessageItem>,
     textString: String,
     len: MutableState<Int>,
     maxLen: Int,
     accuracy: MutableState<Int>,
     isEnd: MutableState<Boolean>,
     finalAccuracy: MutableState<Int>
-    //messageList: List<MessageItem>,
-//    text: Array<String>,
-//    sound: List<Int>
 ) {
-
-//    var indexIterator = remember {
-//        mutableStateOf(3)
-//    }
-
-    //val textString = messageList.last().textEn
 
     var speechRecognizer: SpeechRecognizer? = null
     val flag = remember {
@@ -109,15 +94,6 @@ fun SpeechRecognitionScreen(
             flag.value = false
             val percent = levenshteinDistancePercentage(data?.get(0) ?: "", textString)
             if (percent > 50 && len.value < maxLen) { //
-//                messageList.add(
-//                    MessageItem(
-//                        indexIterator.value%2==0,
-//                        text[indexIterator.value],
-//                        text[(text.size - 2)/2 + indexIterator.value],
-//                        text[indexIterator.value%2],
-//                        sound[(indexIterator.value-2)]
-//                    )
-//                )
                 finalAccuracy.value += percent.toInt()
                 len.value += 1
             } else if (percent > 50){
@@ -162,9 +138,9 @@ fun SpeechRecognitionScreen(
                 contentDescription = "icon",
                 modifier = Modifier
                     .size(64.dp)
-                    .background(MaterialTheme.colors.background)
-                    .border(4.dp, Purple500, CircleShape),
-                tint = Purple400,
+                    .background(MaterialTheme.colorScheme.background)
+                    .border(4.dp, MaterialTheme.colorScheme.tertiary, CircleShape),
+                tint = MaterialTheme.colorScheme.tertiary,
             )
         }
     }
@@ -172,7 +148,6 @@ fun SpeechRecognitionScreen(
     DisposableEffect(Unit) {
         onDispose {
             speechRecognizer.destroy()
-            Log.d("MyLog", "answer is 4")
         }
     }
 
