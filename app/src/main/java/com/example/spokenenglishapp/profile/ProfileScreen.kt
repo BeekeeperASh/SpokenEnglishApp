@@ -150,7 +150,10 @@ fun ProfileScreen(
                 subList.add(sumNumbersFromString(key))
                 points.add((accuracyMap.value[key].toString().toInt()).toFloat() + 10f)
             }
-            points = sortArrayBasedOnAnother(points, subList).subList(points.size-10, points.size)
+            points = sortArrayBasedOnAnother(points, subList)
+            if (points.size>=10){
+                points = points.subList(points.size-10, points.size)
+            }
             Box(
                 modifier = Modifier.weight(4f)
             ) {
